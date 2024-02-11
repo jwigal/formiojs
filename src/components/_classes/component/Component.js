@@ -1089,6 +1089,8 @@ export default class Component extends Element {
    */
   get submissionTimezone() {
     this.options.submissionTimezone = this.options.submissionTimezone || _.get(this.root, 'options.submissionTimezone');
+    console.log(`get submissionTimezone(): this.options.submissionTimezone ${this.options.submissionTimezone }`)
+    console.log(`get submissionTimezone(): via root ${_.get(this.root, 'options.submissionTimezone')}`)
     return this.options.submissionTimezone;
   }
 
@@ -1097,13 +1099,18 @@ export default class Component extends Element {
   }
 
   getTimezone(settings) {
+    console.log(`getTimezone: setting ${settings.timezone}`)
     if (settings.timezone) {
       return settings.timezone;
     }
+    console.log(`getTimezone: settings.displayInTimezone ${settings.displayInTimezone}`)
     if (settings.displayInTimezone === 'utc') {
       return 'UTC';
     }
     const submissionTimezone = this.submissionTimezone;
+    console.log(`getTimezone: submissionTimezone ${submissionTimezone}`)
+    console.log(`getTimezone: this.options.pdf ${this.options.pdf}`)
+    console.log(`getTimezone: this.options.server ${this.options.server}`)
     if (
       submissionTimezone &&
       (
@@ -1113,6 +1120,7 @@ export default class Component extends Element {
     ) {
       return submissionTimezone;
     }
+    console.log(`getTimezone: fallback to currentTimezone() ${currentTimezone()}`)
 
     // Return current timezone if none are provided.
     return currentTimezone();
